@@ -236,7 +236,7 @@ var linen = (function() {
                    ' ' + make_tag('img', "", "src=\"" + content + "\""),
                    'href="' + url + '"')
                })
-               .replace(/!([^! \n]+)!/g, function(content) { return make_tag('img', "", "src=\"" + cleanup(content) + "\"") })
+               .replace(/!([^! \n]+)!/g, function(content, m1) { return make_tag('img', "", "src=\"" + m1 + "\"") })
 
                // Punctuation
                .replace(/--/g, "&#8212;")
@@ -255,29 +255,29 @@ var linen = (function() {
                .replace(/([A-Z]{2,})/g, function(content) { return make_tag("span", content + " ", "class=\"caps\"") })
 
                // Citations
-               .replace(/\?{2}([^\?]+)\?{2}/g, function(content) { return make_tag("cite", cleanup(content)) })
+               .replace(/\?{2}([^\?]+)\?{2}/g, function(content,m1) { return make_tag("cite", m1) })
 
                // Spans
-               .replace(/%([^%]+)%/g, function(content) { return make_tag("span", cleanup(content)) })
+			   .replace(/%([^%]+)%/g, function(content,m1) { return make_tag("span", m1) })
 
                // Code
-               .replace(/(@[^@]+@)/g, function(content) { return make_tag("code", cleanup(content)) })
+			   .replace(/@([^@]+)@/g, function(content,m1) { return make_tag("code", m1) })
 
                // Bolding
-               .replace(/\*([^\*]+)\*/g, function(content) { return make_tag("strong", cleanup(content)) })
-               .replace(/\*\*([^\*]+)\*\*/g, function(content) { return make_tag("b", cleanup(content)) })
+			   .replace(/\*\*([^\*]+)\*\*/g, function(content,m1) { return make_tag("b", m1) })
+			   .replace(/\*([^\*]+)\*/g, function(content, m1) { return make_tag("strong", m1) })
 
                // Italics
-               .replace(/\b_([^_]+)_\b/g, function(content) { return make_tag("em", cleanup(content)) })
-               .replace(/\b__([^_]+)__\b/g, function(content) { return make_tag("i", cleanup(content)) })
+               .replace(/\b__([^_]+)__\b/g, function(content,m1) { return make_tag("i", m1) })
+               .replace(/\b_([^_]+)_\b/g, function(content,m1) { return make_tag("em", m1) })
 
                // Insertions & Deletions
-               .replace(/\s\+([^\+]+)\+\s/g, function(content) { return ' ' + make_tag("ins", cleanup(content, 2)) + ' ' })
-               .replace(/\s-([^-]+)-\s/g, function(content) { return ' ' + make_tag("del", cleanup(content, 2)) + ' ' })
+               .replace(/\s\+([^\+]+)\+\s/g, function(content, m1) { return ' ' + make_tag("ins", m1) + ' ' })
+               .replace(/\s-([^-]+)-\s/g, function(content, m1) { return ' ' + make_tag("del", m1) + ' ' })
 
                // Insertions & Deletions
-               .replace(/\^([^\^]+)\^/g, function(content) { return make_tag("sup", cleanup(content)) })
-               .replace(/~([^~]+)~/g, function(content) { return make_tag("sub", cleanup(content)) });
+               .replace(/\^([^\^]+)\^/g, function(content, m1) { return make_tag("sup", m1) })
+               .replace(/~([^~]+)~/g, function(content, m1) { return make_tag("sub", m1) });
   }
 
 
